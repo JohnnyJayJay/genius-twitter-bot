@@ -1,7 +1,9 @@
 {
   "twitter": {
-    "api_key": "key",
-    "access_token": "token"
+    "api_key": "consumer key",
+    "access_token": "token",
+    "api_secret_key": "consumer secret key",
+    "access_token_secret": "access token secret"
   },
 
   "genius": {

@@ -79,6 +79,8 @@ public class Config {
         Checks.check(genius.has("artist"), supplier);
         Checks.check(twitter.has("api_key"), supplier);
         Checks.check(twitter.has("access_token"), supplier);
+        Checks.check(twitter.has("api_secret_key"), supplier);
+        Checks.check(twitter.has("access_token_secret"), supplier);
     }
 
     public static class Twitter {
@@ -88,12 +90,20 @@ public class Config {
             this.configObject = configObject;
         }
 
+        public String apiKeySecret() {
+            return configObject.get("api_secret_key").getAsString();
+        }
+
         public String apiKey() {
             return configObject.get("api_key").getAsString();
         }
 
         public String accessToken() {
             return configObject.get("access_token").getAsString();
+        }
+
+        public String accessTokenSecret() {
+            return configObject.get("access_token_secret").getAsString();
         }
     }
 

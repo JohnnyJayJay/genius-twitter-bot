@@ -6,6 +6,7 @@ import com.github.johnnyjayjay.bobobot.util.Checks;
 import com.github.johnnyjayjay.bobobot.util.RandomPick;
 import com.github.johnnyjayjay.bobobot.SongStash;
 import com.github.johnnyjayjay.bobobot.genius.GeniusAPI;
+import twitter4j.Twitter;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -17,7 +18,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class PostSchedule {
 
-    private final TwitterStatusUpdater statusUpdater;
+    private final Twitter twitterAPI;
     private final GeniusAPI geniusAPI;
     private final SongStash songStash;
     private final long periodInSeconds;
@@ -28,8 +29,8 @@ public class PostSchedule {
 
     private ScheduledFuture<?> task;
 
-    private PostSchedule(TwitterStatusUpdater statusUpdater, GeniusAPI geniusAPI, SongStash songStash, long periodInSeconds, boolean postSource, int maxLines) {
-        this.statusUpdater = statusUpdater;
+    private PostSchedule(Twitter twitterAPI, GeniusAPI geniusAPI, SongStash songStash, long periodInSeconds, boolean postSource, int maxLines) {
+        this.twitterAPI = twitterAPI;
         this.geniusAPI = geniusAPI;
         this.songStash = songStash;
         this.periodInSeconds = periodInSeconds;
@@ -64,7 +65,7 @@ public class PostSchedule {
             String content = RandomPick.randomCoherentLines(lyrics, maxLines, maxLength);
             content = postSource ? content + "\n- " + song.artist().name() + ", \"" + song.title() + "\"" : content;
             System.out.printf("Posting tweet: %n%s%n", content);
-            statusUpdater.sendTweet(content);
+            twitterAPI.tweets().updateStatus(content);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -72,7 +73,7 @@ public class PostSchedule {
 
     public static class Builder {
 
-        private TwitterStatusUpdater statusUpdater;
+        private Twitter twitterAPI;
         private GeniusAPI geniusAPI;
         private SongStash songStash;
         private int maxLines;
@@ -85,8 +86,8 @@ public class PostSchedule {
             postSource = true;
         }
 
-        public Builder setStatusUpdater(TwitterStatusUpdater statusUpdater) {
-            this.statusUpdater = statusUpdater;
+        public Builder setTwitterAPI(Twitter twitterAPI) {
+            this.twitterAPI = twitterAPI;
             return this;
         }
 
@@ -116,14 +117,14 @@ public class PostSchedule {
         }
 
         public PostSchedule build() {
-            Checks.checkNotNull(statusUpdater, "Status updater");
+            Checks.checkNotNull(twitterAPI, "Status updater");
             Checks.checkNotNull(geniusAPI, "Genius API");
             Checks.checkNotNull(songStash, "Song stash");
             Checks.check(postsPerDay > 0, "Posts per day must be more than 0");
             Checks.check(maxLines > 0, "Max lines must be bigger than 0");
 
             long periodInSeconds = (24 * 60* 60) / postsPerDay;
-            return new PostSchedule(statusUpdater, geniusAPI, songStash, periodInSeconds, postSource, maxLines);
+            return new PostSchedule(twitterAPI, geniusAPI, songStash, periodInSeconds, postSource, maxLines);
         }
     }
 }
