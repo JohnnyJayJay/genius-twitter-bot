@@ -22,11 +22,12 @@ public class RandomPick {
 
         String[] lines = paragraph.split("\n");
 
-        int index = lines.length <= maxLines ? 0 : randomInt(lines.length - maxLines);
+        int startIndex = lines.length <= maxLines ? 0 : randomInt(lines.length - maxLines);
         StringBuilder builder = new StringBuilder();
-        for (int i = index; i < lines.length && i < maxLines; i++) {
+        int lineCount = 0;
+        for (int i = startIndex; i < lines.length; i++) {
             String line = lines[i];
-            if (builder.length() + line.length() + 1 > maxLength)
+            if (lineCount++ >= maxLines || builder.length() + line.length() + 1 > maxLength)
                 break;
 
             builder.append(line).append("\n");
