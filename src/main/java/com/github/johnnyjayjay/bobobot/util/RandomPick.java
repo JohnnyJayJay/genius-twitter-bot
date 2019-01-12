@@ -1,6 +1,8 @@
 package com.github.johnnyjayjay.bobobot.util;
 
 import com.github.johnnyjayjay.bobobot.IndexedCollection;
+import com.github.johnnyjayjay.bobobot.genius.LyricsParser;
+import com.github.johnnyjayjay.bobobot.genius.Song;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -40,4 +42,9 @@ public class RandomPick {
         return ThreadLocalRandom.current().nextInt(bound);
     }
 
+    public static void main(String[] args) {
+        Song song = Song.of(null, "Let the dream come true", "https://genius.com/Dj-bobo-let-the-dream-come-true-lyrics", 1146457);
+        String lyrics = LyricsParser.parseLyrics(song);
+        System.out.println(lyrics);
+    }
 }

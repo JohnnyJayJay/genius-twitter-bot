@@ -18,7 +18,7 @@ public class Song {
         this.id = id;
     }
 
-    private static Song of(Artist artist, String title, String geniusURL, int id) {
+    public static Song of(Artist artist, String title, String geniusURL, int id) {
         return new Song(artist, title, geniusURL, id);
     }
 

@@ -12,6 +12,9 @@ import java.net.URL;
  */
 public class LyricsParser {
 
+    private LyricsParser() {
+    }
+
     public static String parseLyrics(Song song) {
         URL url = geniusURLOf(song);
         String lyrics = "";
@@ -27,10 +30,9 @@ public class LyricsParser {
     }
 
     private static String formatLyrics(String lyrics) {
-        return lyrics
-                .replaceAll("(<!--/?sse-->)|(</?p>)|(\\[.*])", "")
-                .replaceAll("<br><br>(<br>)+", "<br><br>")
-                .replaceAll("<br>", "\n");
+        return lyrics.replaceAll("(<!--/?sse-->)|(</?p>)|(\\[[^\\[\\]]+])", "")
+                .replaceAll("(<br>){2}(<br>)+", "<br><br>")
+                .replaceAll("<br>", "\n").trim();
     }
 
     private static String findLyrics(BufferedReader reader) throws IOException {
