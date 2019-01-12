@@ -43,15 +43,6 @@ public class Main {
 
         System.out.println("Starting tweet schedule");
         schedule.startSchedule();
-
-        /*int songId = RandomPick.randomElement(stash);
-        Song song = geniusAPI.getSong(songId);
-        String lyrics = LyricsParser.parseLyrics(song);
-        System.out.println("Song: " + song.title());
-        System.out.println("Lyrics:");
-        System.out.println(lyrics);
-        System.out.println("\n\nRandom lines:");
-        System.out.println(RandomPick.randomCoherentLines(lyrics, 280));*/
     }
 
     private static void fillStash() {

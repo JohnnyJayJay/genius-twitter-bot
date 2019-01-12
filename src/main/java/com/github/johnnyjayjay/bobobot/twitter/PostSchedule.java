@@ -61,7 +61,7 @@ public class PostSchedule {
             Song song = geniusAPI.getSong(songId);
             String lyrics = LyricsParser.parseLyrics(song);
             int maxLength = postSource ? 280 - 7 - song.title().length() - song.artist().name().length() : 280;
-            String content = RandomPick.randomCoherentLines(lyrics, maxLength);
+            String content = RandomPick.randomCoherentLines(lyrics, maxLines, maxLength);
             content = postSource ? content + "\n- " + song.artist().name() + ", \"" + song.title() + "\"" : content;
             System.out.printf("Posting tweet: %n%s%n", content);
             statusUpdater.sendTweet(content);

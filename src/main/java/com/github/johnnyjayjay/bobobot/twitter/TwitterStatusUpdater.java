@@ -34,7 +34,6 @@ public class TwitterStatusUpdater {
         Call call = client.newCall(request);
 
         try (Response response = call.execute()) {
-            System.out.println(response.body().string());
             System.out.printf("Result: %d", response.code());
         } catch (IOException e) {
             System.err.println("Something went wrong");
