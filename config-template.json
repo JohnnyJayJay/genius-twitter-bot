@@ -1,0 +1,16 @@
+{
+  "twitter": {
+    "api_key": "key",
+    "access_token": "token"
+  },
+
+  "genius": {
+    "token": "token",
+    "artist": "Sample Artist"
+  },
+
+  "posts_per_day": 2,
+  "max_stash_size": 100,
+  "post_source": true,
+  "max_lines": 4
+}
