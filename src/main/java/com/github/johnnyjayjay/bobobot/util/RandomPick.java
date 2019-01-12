@@ -2,7 +2,6 @@ package com.github.johnnyjayjay.bobobot.util;
 
 import com.github.johnnyjayjay.bobobot.IndexedCollection;
 
-import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**

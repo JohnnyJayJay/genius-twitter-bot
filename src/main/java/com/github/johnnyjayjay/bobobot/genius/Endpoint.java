@@ -1,8 +1,5 @@
 package com.github.johnnyjayjay.bobobot.genius;
 
-import java.text.Format;
-import java.util.Formatter;
-
 /**
  * @author Johnny_JayJay (https://www.github.com/JohnnyJayJay)
  */

@@ -1,8 +1,11 @@
 package com.github.johnnyjayjay.bobobot.twitter;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonParser;
-import okhttp3.*;
+import okhttp3.Call;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 import java.io.IOException;
 
