@@ -10,8 +10,8 @@ I decided to make it public so that everybody is able to use it.
 4. Click on "Create an app" (on the page I just linked)
 5. Fill in the necessary information and click "Create"
 6. Create a [genius](https://genius.com) account and [create an API client](https://genius.com/api-clients/new)
-7. Now download the .jar-file [here](../blob/master/build/lib) and put it in some folder
-8. Download the [config-template.json](../blob/master/config-template.json) file and put it in the same directory.
+7. Now download the .jar-file [here](../master/build/lib) and put it in some folder
+8. Download the [config-template.json](../master/config-template.json) file and put it in the same directory.
 9. Edit the file using any editor, preferably something like [Notepad++](https://notepad-plus-plus.org/).
 [Click here](../blob/master/README.md#Configuration) to see how to configure the bot.
 10. After you're done, save the file and rename it *config.json*
