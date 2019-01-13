@@ -15,7 +15,7 @@ public class Artist {
         this.id = id;
     }
 
-    private static Artist of(String name, int id) {
+    public static Artist of(String name, int id) {
         return new Artist(name, id);
     }
 
