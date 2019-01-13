@@ -42,4 +42,14 @@ public class Song {
     public String geniusURL() {
         return geniusURL;
     }
+
+    @Override
+    public String toString() {
+        return "Song{" +
+                "artist=" + artist +
+                ", title='" + title + '\'' +
+                ", geniusURL='" + geniusURL + '\'' +
+                ", id=" + id +
+                '}';
+    }
 }

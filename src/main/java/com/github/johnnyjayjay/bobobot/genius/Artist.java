@@ -31,4 +31,11 @@ public class Artist {
         return id;
     }
 
+    @Override
+    public String toString() {
+        return "Artist{" +
+                "name='" + name + '\'' +
+                ", id=" + id +
+                '}';
+    }
 }
