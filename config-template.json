@@ -11,6 +11,7 @@
     "artist": "Sample Artist"
   },
 
+  "all_caps": false
   "posts_per_day": 2,
   "max_stash_size": 100,
   "post_source": true,

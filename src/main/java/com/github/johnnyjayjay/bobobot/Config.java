@@ -54,6 +54,10 @@ public class Config {
         return configObject.get("max_lines").getAsInt();
     }
 
+    public boolean allCaps() {
+        return configObject.get("all_caps").getAsBoolean();
+    }
+
     public Twitter twitterConfig() {
         return twitterConfig;
     }
@@ -69,6 +73,7 @@ public class Config {
         Checks.check(configObject.has("posts_per_day"), supplier);
         Checks.check(configObject.has("max_lines"), supplier);
         Checks.check(configObject.has("post_source"), supplier);
+        Checks.check(configObject.has("all_caps"), supplier);
         Checks.check(configObject.has("twitter"), supplier);
         Checks.check(configObject.has("genius"), supplier);
 

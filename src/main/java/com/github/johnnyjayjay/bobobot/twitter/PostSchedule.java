@@ -24,18 +24,20 @@ public class PostSchedule {
     private final SongStash songStash;
     private final long periodInSeconds;
     private final boolean postSource;
+    private final boolean allCaps;
     private final int maxLines;
 
     private final ScheduledExecutorService scheduler;
 
     private ScheduledFuture<?> task;
 
-    private PostSchedule(Twitter twitterAPI, GeniusAPI geniusAPI, SongStash songStash, long periodInSeconds, boolean postSource, int maxLines) {
+    private PostSchedule(Twitter twitterAPI, GeniusAPI geniusAPI, SongStash songStash, long periodInSeconds, boolean postSource, boolean allCaps, int maxLines) {
         this.twitterAPI = twitterAPI;
         this.geniusAPI = geniusAPI;
         this.songStash = songStash;
         this.periodInSeconds = periodInSeconds;
         this.postSource = postSource;
+        this.allCaps = allCaps;
         this.maxLines = maxLines;
         this.scheduler = Executors.newSingleThreadScheduledExecutor();
         this.task = CompletedFuture.INSTANCE;
@@ -64,10 +66,17 @@ public class PostSchedule {
             String lyrics = LyricsParser.parseLyrics(song);
             int maxLength = postSource ? 280 - 7 - song.title().length() - song.artist().name().length() : 280;
             String content = RandomPick.randomCoherentLines(lyrics, maxLines, maxLength);
-            content = postSource ? content + "\n- " + song.artist().name() + ", \"" + song.title() + "\"" : content;
+
+            if (allCaps)
+                content = content.toUpperCase();
+
+            if (postSource)
+                content = content + "\n- " + song.artist().name() + ", \"" + song.title() + "\"";
+
             System.out.printf("Posting tweet: %n%s%n", content);
             twitterAPI.tweets().updateStatus(content);
         } catch (Exception e) {
+            System.err.println("Something went wrong");
             e.printStackTrace();
         }
     }
@@ -80,11 +89,13 @@ public class PostSchedule {
         private int maxLines;
         private int postsPerDay;
         private boolean postSource;
+        private boolean allCaps;
 
         public Builder() {
             maxLines = 4;
             postsPerDay = 2;
             postSource = true;
+            allCaps = false;
         }
 
         public Builder setTwitterAPI(Twitter twitterAPI) {
@@ -117,6 +128,11 @@ public class PostSchedule {
             return this;
         }
 
+        public Builder setAllCaps(boolean allCaps) {
+            this.allCaps = allCaps;
+            return this;
+        }
+
         public PostSchedule build() {
             Checks.checkNotNull(twitterAPI, "Status updater");
             Checks.checkNotNull(geniusAPI, "Genius API");
@@ -125,7 +141,7 @@ public class PostSchedule {
             Checks.check(maxLines > 0, "Max lines must be bigger than 0");
 
             long periodInSeconds = (24 * 60* 60) / postsPerDay;
-            return new PostSchedule(twitterAPI, geniusAPI, songStash, periodInSeconds, postSource, maxLines);
+            return new PostSchedule(twitterAPI, geniusAPI, songStash, periodInSeconds, postSource, allCaps, maxLines);
         }
     }
 }
