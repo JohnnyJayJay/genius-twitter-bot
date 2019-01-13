@@ -3,6 +3,7 @@ package com.github.johnnyjayjay.bobobot.twitter;
 import com.github.johnnyjayjay.bobobot.genius.LyricsParser;
 import com.github.johnnyjayjay.bobobot.genius.Song;
 import com.github.johnnyjayjay.bobobot.util.Checks;
+import com.github.johnnyjayjay.bobobot.util.CompletedFuture;
 import com.github.johnnyjayjay.bobobot.util.RandomPick;
 import com.github.johnnyjayjay.bobobot.SongStash;
 import com.github.johnnyjayjay.bobobot.genius.GeniusAPI;
@@ -37,7 +38,7 @@ public class PostSchedule {
         this.postSource = postSource;
         this.maxLines = maxLines;
         this.scheduler = Executors.newSingleThreadScheduledExecutor();
-        this.task = scheduler.schedule(() -> {}, 1, TimeUnit.MILLISECONDS);
+        this.task = CompletedFuture.INSTANCE;
     }
 
     public static Builder builder() {
