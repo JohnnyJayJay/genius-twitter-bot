@@ -13,7 +13,7 @@ I decided to make it public so that everybody is able to use it.
 7. Now download the .jar-file [here](../master/build/lib) and put it in some folder
 8. Download the [config-template.json](../master/config-template.json) file and put it in the same directory.
 9. Edit the file using any editor, preferably something like [Notepad++](https://notepad-plus-plus.org/).
-[Click here](../blob/master/README.md#Configuration) to see how to configure the bot.
+[Click here](../master/README.md#Configuration) to see how to configure the bot.
 10. After you're done, save the file and rename it *config.json*
 11. Create a new file in the same directory and call it *start.bat* (for Windows). You can edit it using any editor.
 Write this in there:
