@@ -22,22 +22,20 @@ import java.util.List;
  */
 public class GeniusAPI {
 
-    private static final String BASE_URL = "https://api.genius.com/";
-    private static final String SEARCH = "search";
-
-
     private final JsonParser responseParser;
     private final String accessToken;
     private final OkHttpClient client;
+    private final boolean checkArtistOnFetchSongs;
 
-    private GeniusAPI(String accessToken, OkHttpClient client) {
+    private GeniusAPI(String accessToken, OkHttpClient client, boolean checkArtistOnFetchSongs) {
         this.accessToken = accessToken;
         this.client = client;
+        this.checkArtistOnFetchSongs = checkArtistOnFetchSongs;
         this.responseParser = new JsonParser();
     }
 
-    public static GeniusAPI create(String accessToken, OkHttpClient client) {
-        return new GeniusAPI(accessToken, client);
+    public static GeniusAPI create(String accessToken, OkHttpClient client, boolean checkArtistOnFetchSongs) {
+        return new GeniusAPI(accessToken, client, checkArtistOnFetchSongs);
     }
 
     public Song getSong(int songId) {
@@ -82,8 +80,13 @@ public class GeniusAPI {
                 Logging.LOGGER.debug("Parsing JSON object");
                 JsonObject jsonObject = responseParser.parse(body.charStream()).getAsJsonObject().getAsJsonObject("response");
                 JsonArray songs = jsonObject.getAsJsonArray("songs");
-                for (JsonElement song : songs) {
-                    int id = song.getAsJsonObject().get("id").getAsInt();
+                for (JsonElement songElement : songs) {
+                    Song song = Song.fromJsonObject(songElement.getAsJsonObject());
+
+                    if (checkArtistOnFetchSongs && !artist.equals(song.artist()))
+                        continue;
+
+                    int id = song.id();
                     songIds.add(id);
                 }
             }

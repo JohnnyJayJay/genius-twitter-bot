@@ -2,6 +2,8 @@ package com.github.johnnyjayjay.bobobot.genius;
 
 import com.google.gson.JsonObject;
 
+import java.util.Objects;
+
 /**
  * @author Johnny_JayJay (https://www.github.com/JohnnyJayJay)
  */
@@ -29,6 +31,20 @@ public class Artist {
 
     public int id() {
         return id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Artist artist = (Artist) o;
+        return id == artist.id &&
+                Objects.equals(name, artist.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, id);
     }
 
     @Override

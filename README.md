@@ -50,6 +50,10 @@ The access token can be found [here](https://genius.com/api-clients). You may ha
 
 Now you need to specify the name of the artist, preferably as they are called on genius.com, as the app will query the API using name.
 
+Setting `"double_check_artist"` to `true` ensures that only songs from the artist will be fetched. This was implemented because the 
+genius API tends to throw in random songs from other artists when fetching the ones of a specific one in some cases. Most of the time, 
+this should not happen, so you can set it to `false`. Though if it does, you know how to prevent it.
+
 ### Behaviour
 The rest of the config specifies how the app should behave, i.e. when to post, how to post and so on.
 These are the options available:

@@ -2,6 +2,8 @@ package com.github.johnnyjayjay.bobobot.genius;
 
 import com.google.gson.JsonObject;
 
+import java.util.Objects;
+
 /**
  * @author Johnny_JayJay (https://www.github.com/JohnnyJayJay)
  */
@@ -41,6 +43,22 @@ public class Song {
 
     public String geniusURL() {
         return geniusURL;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Song song = (Song) o;
+        return id == song.id &&
+                Objects.equals(artist, song.artist) &&
+                Objects.equals(title, song.title) &&
+                Objects.equals(geniusURL, song.geniusURL);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(artist, title, geniusURL, id);
     }
 
     @Override

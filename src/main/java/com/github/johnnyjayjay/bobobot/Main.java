@@ -21,7 +21,8 @@ public class Main {
         OkHttpClient client = new OkHttpClient.Builder().build();
         System.out.println("Loading config...");
         config = Config.load("./config.json");
-        geniusAPI = GeniusAPI.create(config.geniusConfig().token(), client);
+        Config.Genius geniusConfig = config.geniusConfig();
+        geniusAPI = GeniusAPI.create(geniusConfig.token(), client, geniusConfig.doubleCheckArtist());
         TwitterFactory twitterFactory = createTwitterFactory();
         Twitter twitterAPI = twitterFactory.getInstance();
 

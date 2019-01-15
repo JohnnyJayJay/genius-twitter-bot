@@ -82,6 +82,7 @@ public class Config {
 
         Checks.check(genius.has("token"), supplier);
         Checks.check(genius.has("artist"), supplier);
+        Checks.check(genius.has("double_check_artist"), supplier);
         Checks.check(twitter.has("api_key"), supplier);
         Checks.check(twitter.has("access_token"), supplier);
         Checks.check(twitter.has("api_secret_key"), supplier);
@@ -117,6 +118,10 @@ public class Config {
 
         private Genius(JsonObject configObject) {
             this.configObject = configObject;
+        }
+
+        public boolean doubleCheckArtist() {
+            return configObject.get("double_check_artist").getAsBoolean();
         }
 
         public String artistName() {
