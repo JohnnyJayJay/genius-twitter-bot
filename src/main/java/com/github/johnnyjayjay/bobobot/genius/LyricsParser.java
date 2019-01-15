@@ -44,7 +44,7 @@ public class LyricsParser {
     }
 
     private static String formatLyrics(String lyrics) {
-        return lyrics.replaceAll("(<!--/?sse-->)|(</?p>)|(\\[[^\\[\\]]+])", "")
+        return lyrics.replaceAll("(<!--/?sse-->)|(</?[apibu]>)|(\\[[^\\[\\]]+])|(<a[^>]+>)", "")
                 .replaceAll("(<br>){2}(<br>)+", "<br><br>")
                 .replaceAll("<br>", "\n").trim();
     }
