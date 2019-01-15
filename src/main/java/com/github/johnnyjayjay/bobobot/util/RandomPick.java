@@ -9,6 +9,8 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public class RandomPick {
 
+    private RandomPick() {}
+
     public static <T> T randomElement(IndexedCollection<T> list) {
         if (list.isEmpty())
             throw new IllegalArgumentException("List must not be empty");

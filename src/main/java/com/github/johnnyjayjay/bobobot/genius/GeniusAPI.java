@@ -1,5 +1,6 @@
 package com.github.johnnyjayjay.bobobot.genius;
 
+import com.github.johnnyjayjay.bobobot.Logging;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -46,9 +47,12 @@ public class GeniusAPI {
                 this.createRequest("", Endpoint.SONG, songId)
         );
 
+        Logging.LOGGER.debug("Requesting song with id {} via genius", songId);
         try (Response response = call.execute()) {
+            Logging.LOGGER.debug("Response received");
             ResponseBody body = response.body();
             if (body != null) {
+                Logging.LOGGER.debug("Parsing JSON object");
                 JsonObject jsonObject = responseParser.parse(body.charStream())
                         .getAsJsonObject()
                         .getAsJsonObject("response")
@@ -70,9 +74,12 @@ public class GeniusAPI {
                 this.createRequest("?per_page=50&sort=popularity&page=" + page, Endpoint.ARTIST_SONGS, artist.id())
         );
 
+        Logging.LOGGER.debug("Fetching songs from artist {}, page {}", artist, page);
         try (Response response = call.execute()) {
+            Logging.LOGGER.debug("Response received");
             ResponseBody body = response.body();
             if (body != null) {
+                Logging.LOGGER.debug("Parsing JSON object");
                 JsonObject jsonObject = responseParser.parse(body.charStream()).getAsJsonObject().getAsJsonObject("response");
                 JsonArray songs = jsonObject.getAsJsonArray("songs");
                 for (JsonElement song : songs) {
@@ -94,16 +101,22 @@ public class GeniusAPI {
                 this.createRequest("?q=" + name.replaceAll("\\s", "%20"), Endpoint.SEARCH)
         );
 
+        Logging.LOGGER.debug("Attempting to find artist with name {}", name);
+
         try (Response response = call.execute()) {
+            Logging.LOGGER.debug("Response received");
             ResponseBody body = response.body();
             if (body != null) {
+                Logging.LOGGER.debug("Parsing JSON object");
                 JsonObject jsonObject = responseParser.parse(body.charStream()).getAsJsonObject().getAsJsonObject("response");
                 JsonArray results = jsonObject.getAsJsonArray("hits");
+                Logging.LOGGER.debug("Looking for results");
                 for (JsonElement result : results) {
                     JsonObject resultObject = result.getAsJsonObject();
                     if (resultObject.get("type").getAsString().equals("song")) {
                         Artist artist = Artist.fromJsonObject(resultObject.getAsJsonObject("result").getAsJsonObject("primary_artist"));
                         if (artist.name().equalsIgnoreCase(name)) {
+                            Logging.LOGGER.debug("Artist found");
                             foundArtist = artist;
                             break;
                         }
@@ -118,8 +131,7 @@ public class GeniusAPI {
     }
 
     private void logException(Throwable throwable) {
-        System.err.println("Something went wrong");
-        throwable.printStackTrace();
+        Logging.LOGGER.error("Something went wrong while making genius API request", throwable);
     }
 
     private Request createRequest(String urlAddition, Endpoint endpoint, Object... parameters) {

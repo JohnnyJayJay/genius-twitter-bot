@@ -1,5 +1,6 @@
 package com.github.johnnyjayjay.bobobot.twitter;
 
+import com.github.johnnyjayjay.bobobot.Logging;
 import com.github.johnnyjayjay.bobobot.genius.LyricsParser;
 import com.github.johnnyjayjay.bobobot.genius.Song;
 import com.github.johnnyjayjay.bobobot.util.Checks;
@@ -61,10 +62,15 @@ public class PostSchedule {
 
     private void post() {
         try {
+            Logging.LOGGER.info("Preparing new post");
             int songId = RandomPick.randomElement(songStash);
             Song song = geniusAPI.getSong(songId);
+            Logging.LOGGER.info("Song picked: {}", song);
+            Logging.LOGGER.info("Parsing lyrics");
             String lyrics = LyricsParser.parseLyrics(song);
+            Logging.LOGGER.debug("Lyrics parsed. Result:\n{}", lyrics);
             int maxLength = postSource ? 280 - 7 - song.title().length() - song.artist().name().length() : 280;
+            Logging.LOGGER.info("Picking random lines");
             String content = RandomPick.randomCoherentLines(lyrics, maxLines, maxLength);
 
             if (allCaps)
@@ -73,11 +79,10 @@ public class PostSchedule {
             if (postSource)
                 content = content + "\n- " + song.artist().name() + ", \"" + song.title() + "\"";
 
-            System.out.printf("Posting tweet: %n%s%n", content);
+            Logging.LOGGER.info("Updating status with tweet:\n{}", content);
             twitterAPI.tweets().updateStatus(content);
         } catch (Exception e) {
-            System.err.println("Something went wrong");
-            e.printStackTrace();
+            Logging.LOGGER.error("Something went wrong while trying to post a tweet", e);
         }
     }
 

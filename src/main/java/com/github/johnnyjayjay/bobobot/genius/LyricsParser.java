@@ -1,5 +1,7 @@
 package com.github.johnnyjayjay.bobobot.genius;
 
+import com.github.johnnyjayjay.bobobot.Logging;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,11 +22,11 @@ public class LyricsParser {
         URL url = geniusURLOf(song);
         String lyrics = "";
 
+        Logging.LOGGER.debug("Getting input stream for genius song {}", song);
         try (InputStream stream = getInputStreamFor(url);
              BufferedReader reader = new BufferedReader(new InputStreamReader(stream))) {
             lyrics = findLyrics(reader);
         } catch (IOException e) {
-            e.printStackTrace();
             throw new RuntimeException(e);
         }
 
@@ -37,7 +39,6 @@ public class LyricsParser {
             httpConnection.addRequestProperty("User-Agent", "Mozilla/4.0");
             return httpConnection.getInputStream();
         } catch (IOException e) {
-            e.printStackTrace();
             throw new RuntimeException(e);
         }
     }
@@ -51,9 +52,11 @@ public class LyricsParser {
     private static String findLyrics(BufferedReader reader) throws IOException {
         String line;
 
+        Logging.LOGGER.debug("Looking for lyrics section");
         while ((line = reader.readLine()) != null) {
             line = line.trim();
             if (line.equals("<div class=\"lyrics\">")) {
+                Logging.LOGGER.debug("Lyrics section found");
                 StringBuilder lyrics = new StringBuilder();
                 while (!(line = reader.readLine().trim()).equals("</div>"))
                     lyrics.append(line);

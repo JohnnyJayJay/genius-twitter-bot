@@ -7,6 +7,8 @@ import java.util.function.Supplier;
  */
 public class Checks {
 
+    private Checks() {}
+
     public static void checkNotNull(Object o, String name) {
         if (o == null)
             throw new IllegalArgumentException(name + " must not be null");

@@ -17,6 +17,7 @@ repositories {
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
+    implementation 'ch.qos.logback:logback-classic:1.2.3'
     implementation 'com.squareup.okhttp3:okhttp:3.12.1'
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'org.twitter4j:twitter4j-core:4.0.7'
